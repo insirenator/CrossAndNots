@@ -2,8 +2,12 @@ window.addEventListener('DOMContentLoaded', () => {
 	const tiles = Array.from(document.querySelectorAll('.tile'));
 	let board = ["", "", "", "", "", "", "", "", "" ];
 
+	// Reset Button
 	document.querySelector('#reset-btn').addEventListener('click', () => resetBoard());
 	
+	//History
+	const history = document.querySelector('#moves-history');
+
 	let isGameOn = true;
 	let currentPlayer = 'X';
 
@@ -37,6 +41,7 @@ window.addEventListener('DOMContentLoaded', () => {
 	function userClicked(idx) {
 		if(isGameOn && isValidMove(idx)) {
 			updateBoard(idx);
+			updateHistory(idx);
 			checkForWin();
 			console.log(board);
 		}
@@ -51,6 +56,24 @@ window.addEventListener('DOMContentLoaded', () => {
 	function updateBoard(idx) {
 		board[idx] = currentPlayer;
 		tiles[idx].innerHTML = currentPlayer;
+	}
+
+	function updateHistory(idx) {
+		//Create new entry
+		const newEntry = document.createElement("p");
+		//Add the class list
+		newEntry.classList.add('history-entry');
+		//Change inner text
+		newEntry.textContent = `Player ${currentPlayer} moved at ${idx+1}`
+		//Add event listeners
+		newEntry.addEventListener('mouseover', () => {
+			tiles[idx].style.color = "red";
+		});
+		newEntry.addEventListener('mouseout', () => {
+			tiles[idx].style.color = "black";
+		});
+		//Append to the history
+		history.append(newEntry);
 	}
 
 	function checkForWin() {
@@ -76,6 +99,7 @@ window.addEventListener('DOMContentLoaded', () => {
 		isGameOn = true;
 		currentPlayer = 'X';
 		announcer.style.display = "none";
+		history.innerHTML = '';
 
 		tiles.forEach((tile) => {
 			tile.textContent = "";

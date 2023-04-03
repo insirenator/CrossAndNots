@@ -68,9 +68,12 @@ window.addEventListener('DOMContentLoaded', () => {
 		//Add event listeners
 		newEntry.addEventListener('mouseover', () => {
 			tiles[idx].style.color = "red";
+			tiles[idx].style.fontSize = "35px";
 		});
 		newEntry.addEventListener('mouseout', () => {
 			tiles[idx].style.color = "black";
+			tiles[idx].style.fontSize = "25px";
+
 		});
 		//Append to the history
 		history.append(newEntry);
@@ -87,11 +90,18 @@ window.addEventListener('DOMContentLoaded', () => {
 				// Announce Winner
 				announcer.style.display = "block";
 				announcer.textContent = `PLAYER ${currentPlayer} WON!!`;
+				highlightTiles(a, b, c);
 				console.log(`PLAYER ${currentPlayer} WON!!`);
 			}
 		}
 		//Change Player
 		currentPlayer = (currentPlayer === 'X')?'O':'X';
+	}
+
+	function highlightTiles(a, b, c) {
+		tiles[a].style.backgroundColor = "#ffa5c1";
+		tiles[b].style.backgroundColor = "#ffa5c1";
+		tiles[c].style.backgroundColor = "#ffa5c1";
 	}
 
 	function resetBoard() {
@@ -103,6 +113,7 @@ window.addEventListener('DOMContentLoaded', () => {
 
 		tiles.forEach((tile) => {
 			tile.textContent = "";
+			tile.style.backgroundColor = "white";
 		});
 	}
 
